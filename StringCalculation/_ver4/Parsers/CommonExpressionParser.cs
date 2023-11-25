@@ -1,6 +1,7 @@
 ﻿using StringCalculation._ver4.Calculation.Nodes;
 using StringCalculation._ver4.General;
 using StringCalculation._ver4.Parsers.Components;
+using StringCalculation._ver4.Parsers.Readers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace StringCalculation._ver4.Parsers
             ExpressionManager.Instance.Arguments.AddRange(arguments);
 
             foreach (char symbol in expression) BufferSymbol(_buffer.ReadSymbol(symbol));
-            BufferSymbol(_buffer.ReadSymbol(ParsingBuffer.END_OF_THE_LINE_SYMBOL));
+            BufferSymbol(_buffer.ReadSymbol(SymbolReader.END_OF_THE_LINE_SYMBOL));
 
             return result;
 

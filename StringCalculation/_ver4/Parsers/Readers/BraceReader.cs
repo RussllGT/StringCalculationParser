@@ -1,16 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StringCalculation._ver4.General;
+using StringCalculation._ver4.Parsers.Components;
+using System;
 
 namespace StringCalculation._ver4.Parsers.Readers
 {
-    internal class BraceReader : ISymbolReader
+    public class BraceReader : SymbolReader
     {
-        public SymbolReadingInfo ReadSymbol(char symbol)
+        private int _count = 0;
+
+        public BraceReader() { }
+
+        public override SymbolReadingInfo ReadSymbol(char symbol)
         {
-            throw new NotImplementedException();
+            if (IsEndSymbol(symbol)) return Close();
+            if (_isActive)
+            {
+                if (IsCloseBrace(symbol))
+                {
+                    if (_count > 0)
+                    {
+                        --_count;
+                        _buffer += symbol;
+                        return SymbolReadingInfo.Empty;
+                    }
+                    else if (_count == 0) return Close();
+                    else throw new ArgumentException("В выражении некорректно расставлены скобки");
+                }
+                else
+                {
+                    if (IsOpenBrace(symbol))
+                    {
+                        ++_count;
+                        _buffer += symbol;
+                    }
+                    return SymbolReadingInfo.Empty;
+                }
+            }
+            else
+            {
+                if (IsOpenBrace(symbol)) return Open();
+                else return null;
+            }
         }
     }
 }

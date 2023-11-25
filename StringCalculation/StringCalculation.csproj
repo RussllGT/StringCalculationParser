@@ -103,7 +103,7 @@
     <Compile Include="_ver4\Parsers\Components\ParsingBuffer.cs" />
     <Compile Include="_ver4\Parsers\Components\SymbolBufferingResult.cs" />
     <Compile Include="_ver4\Parsers\Readers\BraceReader.cs" />
-    <Compile Include="_ver4\Parsers\Readers\ISymbolReader.cs" />
+    <Compile Include="_ver4\Parsers\Readers\SymbolReader.cs" />
     <Compile Include="_ver4\Parsers\Readers\OperatorReader.cs" />
     <Compile Include="_ver4\Parsers\Readers\SymbolReadingInfo.cs" />
     <Compile Include="_ver4\Parsers\Readers\SymbolReadingResult.cs" />
