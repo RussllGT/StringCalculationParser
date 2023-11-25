@@ -31,7 +31,7 @@ namespace StringCalculation
 
         private static BaseNode BuildTree(LinkedList<BaseNode> nodes)
         {
-            if (nodes.Count == 0) new ArgumentException("Tokens List is Emptyfunc(");
+            if (nodes.Count == 0) new ArgumentException("Tokens List is Empty");
             if (nodes.Count == 1 || ProcessNodes(nodes)) return nodes.First.Value;
             throw new ArgumentException("Incorrect Tokens List Construction");
         }
