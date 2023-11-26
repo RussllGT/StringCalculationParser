@@ -15,5 +15,7 @@ namespace StringCalculation._ver4.Calculation.Nodes
         public ConstantNode4(ValueNode4 value) { _value = value; }
 
         public ValueNode4 Calculate() => _value;
+
+        public void RegisterInTree(CalculationTree4 tree) { }
     }
 }

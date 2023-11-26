@@ -9,6 +9,6 @@ namespace StringCalculation._ver4.Parsers.Components
 {
     public interface IConstantParser
     {
-        ConstantNode4 Parse(string expression);
+        ValueNode4 Parse(string expression);
     }
 }

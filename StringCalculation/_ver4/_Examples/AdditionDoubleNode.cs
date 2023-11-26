@@ -11,7 +11,7 @@ namespace StringCalculation._ver4._Examples
     public class AdditionDoubleNode : FunctionNode4
     {
         public const string NAME = "Double Sum";
-        public AdditionDoubleNode() : base(OperatorType.Operator, 2) { }
+        public AdditionDoubleNode() : base(OperatorTypeEnum.Operator, 2) { }
 
         public override ValueNode4 Calculate()
         {

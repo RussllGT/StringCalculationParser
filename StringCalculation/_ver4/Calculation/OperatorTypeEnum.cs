@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StringCalculation._ver4.Calculation
 {
-    public enum OperatorType
+    public enum OperatorTypeEnum
     {
         Function,
         Operator,

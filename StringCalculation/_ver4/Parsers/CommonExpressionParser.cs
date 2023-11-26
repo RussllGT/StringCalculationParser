@@ -63,7 +63,7 @@ namespace StringCalculation._ver4.Parsers
             bool CheckArgument(string value) => ExpressionManager.Instance.Arguments.Contains(value);
             ICalculationNode GetArgument(string value) => ExpressionManager.Instance.Arguments[value];
 
-            ICalculationNode GetConstant(string value) => ExpressionManager.Instance.ConstantParser.Parse(value);
+            ICalculationNode GetConstant(string value) => new ConstantNode4(ExpressionManager.Instance.ConstantParser.Parse(value));
         }
 
         private static string[] ExtractLambda(ref string expression)

@@ -82,12 +82,13 @@
     <Compile Include="_ver2\_Numbers\DoubleValueNode.cs" />
     <Compile Include="_ver2\StringParser2.cs" />
     <Compile Include="_ver2\VariableValuesContainer.cs" />
-    <Compile Include="_ver4\Calculation\CalculationTree4.cs" />
-    <Compile Include="_ver4\Calculation\OperatorType.cs" />
+    <Compile Include="_ver4\Calculation\OperatorTypeEnum.cs" />
     <Compile Include="_ver4\Calculation\Nodes\ArgumentNode4.cs" />
     <Compile Include="_ver4\Calculation\Nodes\ConstantNode4.cs" />
     <Compile Include="_ver4\Calculation\Nodes\ICalculationNode.cs" />
     <Compile Include="_ver4\Calculation\Nodes\ValueNode4_T.cs" />
+    <Compile Include="_ver4\General\CalculationTree4.cs" />
+    <Compile Include="_ver4\General\CalculationTreeBuilder.cs" />
     <Compile Include="_ver4\General\SymbolContainer.cs" />
     <Compile Include="_ver4\General\SymbolContainerProvider.cs" />
     <Compile Include="_ver4\Parsers\Components\CommonConstantParser.cs" />
