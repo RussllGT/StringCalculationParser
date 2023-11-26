@@ -1,24 +1,19 @@
-﻿using StringCalculation._ver4.Calculation.Nodes;
-using StringCalculation._ver4.Calculation;
+﻿using StringCalculation.Calculation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleForCalculation.Double
 {
-    internal class DivisionNode : FunctionNode4
+    internal class DivisionNode : FunctionNode
     {
         public const string NAME = "/";
-        public DivisionNode() : base(OperatorTypeEnum.Operator, 1) { }
+        public DivisionNode() : base(NAME, OperatorTypeEnum.Operator, 1) { }
 
-        public override ValueNode4 Calculate()
+        public override ValueNode Calculate()
         {
-            if (!(GetArgument(0).Calculate() is ValueNode4<double> leftValue)) throw new ArgumentNullException("Некорректный тип аргумента");
-            if (!(GetArgument(1).Calculate() is ValueNode4<double> rightValue)) throw new ArgumentNullException("Некорректный тип аргумента");
+            if (!(GetArgument(0).Calculate() is ValueNode<double> leftValue)) throw new ArgumentNullException("Некорректный тип аргумента");
+            if (!(GetArgument(1).Calculate() is ValueNode<double> rightValue)) throw new ArgumentNullException("Некорректный тип аргумента");
 
-            return new ValueNode4<double>(leftValue.Value / rightValue.Value);
+            return new ValueNode<double>(leftValue.Value / rightValue.Value);
         }
     }
 }

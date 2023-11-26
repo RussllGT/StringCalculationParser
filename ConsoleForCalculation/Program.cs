@@ -1,13 +1,8 @@
-﻿using ConsoleForCalculation;
-using ConsoleForCalculation.Double;
-using StringCalculation;
-using StringCalculation._ver4.Calculation.Nodes;
-using StringCalculation._ver4.General;
+﻿using ConsoleForCalculation.Double;
+using StringCalculation.Calculation;
+using StringCalculation.General;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace ConsoleForCalculation
 {
@@ -49,13 +44,13 @@ namespace ConsoleForCalculation
             if (string.IsNullOrWhiteSpace(expression) || QUIT.Equals(expression.ToLower())) throw new CancelationException(END_MESSAGE);
 
             ExpressionManager manager = ExpressionManager.Instance;
-            manager.Functions.Add("+", typeof(AdditionNode));
-            manager.Functions.Add("-", typeof(SubstractionNode));
-            manager.Functions.Add("*", typeof(MultiplyNode));
-            manager.Functions.Add("/", typeof(DivisionNode));
-            manager.Functions.Add("Pow", typeof(PowerNode));
+            manager.Functions.Add(new AdditionNode());
+            manager.Functions.Add(new SubstractionNode());
+            manager.Functions.Add(new MultiplyNode());
+            manager.Functions.Add(new DivisionNode());
+            manager.Functions.Add(new PowerNode());
 
-            CalculationTree4 tree = manager.CreateTree(expression, new string[] { });
+            CalculationTree tree = manager.CreateTree(expression, new string[] { });
 
             Dictionary<string, string> arguments = new Dictionary<string, string>();
             foreach (string name in tree.Arguments)
@@ -63,8 +58,8 @@ namespace ConsoleForCalculation
                 arguments.Add(name, GetArgument(name));
             }
 
-            ValueNode4 value = tree.Calculate(arguments);
-            if (value is  ValueNode4<double> dValue) Console.WriteLine($"{RESULT}: {dValue.Value}");
+            ValueNode value = tree.Calculate(arguments);
+            if (value is  ValueNode<double> dValue) Console.WriteLine($"{RESULT}: {dValue.Value}");
             else throw new ArgumentException($"Некорректный результат");
         }
 
@@ -78,49 +73,3 @@ namespace ConsoleForCalculation
         }
     }
 }
-
-//static void Main(string[] args)
-//{
-//    try
-//    {
-//        while (true)
-//        {
-//            Console.WriteLine(INVITATION_EXPRESSION);
-
-//            string expression = Console.ReadLine();
-//            if (string.IsNullOrWhiteSpace(expression) || QUIT.Equals(expression.ToLower())) throw new CancelationException(END_MESSAGE);
-
-//            CalculationTree tree = CalculationTree.Create(expression, Enumerable.Empty<char>());
-
-//            List<double> variables = new List<double>();
-//            for (int i = 0; i < tree.Dimensions; ++i) variables.Add(GetArgument(i + 1));
-
-//            Console.WriteLine($"{RESULT}: {tree.Calculate(variables)}");
-//        }
-//    }
-//    catch (CancelationException ce)
-//    {
-//        Console.WriteLine(ce.Message);
-//    }
-//    catch (Exception ex)
-//    {
-//        Console.WriteLine(ex.ToString());
-//    }
-//    finally
-//    {
-//        Console.ReadLine();
-//    }
-//}
-
-//static double GetArgument(int index)
-//{
-//    while (true)
-//    {
-//        Console.WriteLine($"{INVITATION_ARGUMENT}{index}:");
-//        string value = Console.ReadLine();
-//        if (string.IsNullOrWhiteSpace(value) || QUIT.Equals(value.ToLower())) throw new CancelationException(END_MESSAGE);
-
-//        if (double.TryParse(value, out var result)) return result;
-//        Console.WriteLine($"{BAD_ARGUMENT}{index}:");
-//    }
-//}
