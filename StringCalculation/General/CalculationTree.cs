@@ -35,7 +35,7 @@ namespace StringCalculation.General
 
         private void SetValue(string name, ValueNode value)
         {
-            if (!_values.ContainsKey(name)) _values[name] = value;
+            if (_values.ContainsKey(name)) _values[name] = value;
             else throw new ArgumentException($"Аргумент \"{name}\" не зарегистрирован");
         }
 

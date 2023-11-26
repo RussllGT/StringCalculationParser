@@ -52,15 +52,32 @@ namespace ConsoleForCalculation
 
             CalculationTree tree = manager.CreateTree(expression, new string[] { });
 
-            Dictionary<string, string> arguments = new Dictionary<string, string>();
-            foreach (string name in tree.Arguments)
+            while (IsArguments(tree, out Dictionary<string, string> arguments))
             {
-                arguments.Add(name, GetArgument(name));
+                ValueNode value = tree.Calculate(arguments);
+                if (value is ValueNode<double> dValue) Console.WriteLine($"{RESULT}: {dValue.Value}");
+                else throw new ArgumentException($"Некорректный результат");
+                if (arguments.Count == 0) break;
             }
+            ExpressionManager.Instance = null;
+        }
 
-            ValueNode value = tree.Calculate(arguments);
-            if (value is  ValueNode<double> dValue) Console.WriteLine($"{RESULT}: {dValue.Value}");
-            else throw new ArgumentException($"Некорректный результат");
+        static bool IsArguments(CalculationTree tree, out Dictionary<string, string> arguments)
+        {
+            arguments = new Dictionary<string, string>();
+            try
+            {
+                foreach (string name in tree.Arguments)
+                {
+                    arguments.Add(name, GetArgument(name));
+                }
+            }
+            catch (CancelationException)
+            {
+                Console.WriteLine("Ввод аргументов отменён");
+                return false;
+            }
+            return true;
         }
 
         static string GetArgument(string name)
