@@ -1,7 +1,8 @@
-﻿using StringCalculation;
+﻿using ConsoleForCalculation.Double;
+using StringCalculation.Calculation;
+using StringCalculation.General;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ConsoleForCalculation
 {
@@ -9,7 +10,7 @@ namespace ConsoleForCalculation
     {
         private const string INVITATION_EXPRESSION = "Enter the expression:";
         private const string INVITATION_ARGUMENT = "Enter argument ";
-        private const string BAD_ARGUMENT = "Incorrect argument";
+        //private const string BAD_ARGUMENT = "Incorrect argument";
 
         private const string RESULT = "Result";
         private const string QUIT = "quit";
@@ -19,20 +20,7 @@ namespace ConsoleForCalculation
         {
             try
             {
-                while (true)
-                {
-                    Console.WriteLine(INVITATION_EXPRESSION);
-
-                    string expression = Console.ReadLine();
-                    if (string.IsNullOrWhiteSpace(expression) || QUIT.Equals(expression.ToLower())) throw new CancelationException(END_MESSAGE);
-
-                    CalculationTree tree = CalculationTree.Create(expression, Enumerable.Empty<char>());
-
-                    List<double> variables = new List<double>();
-                    for (int i = 0; i < tree.Dimensions; ++i) variables.Add(GetArgument(i + 1));
-
-                    Console.WriteLine($"{RESULT}: {tree.Calculate(variables)}");
-                }
+                while (true) Run();
             }
             catch (CancelationException ce)
             {
@@ -48,17 +36,40 @@ namespace ConsoleForCalculation
             }
         }
 
-        static double GetArgument(int index)
+        static void Run()
         {
-            while (true)
-            {
-                Console.WriteLine($"{INVITATION_ARGUMENT}{index}:");
-                string value = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(value) || QUIT.Equals(value.ToLower())) throw new CancelationException(END_MESSAGE);
+            Console.WriteLine(INVITATION_EXPRESSION);
 
-                if (double.TryParse(value, out var result)) return result;
-                Console.WriteLine($"{BAD_ARGUMENT}{index}:");
+            string expression = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(expression) || QUIT.Equals(expression.ToLower())) throw new CancelationException(END_MESSAGE);
+
+            ExpressionManager manager = ExpressionManager.Instance;
+            manager.Functions.Add(new AdditionNode());
+            manager.Functions.Add(new SubstractionNode());
+            manager.Functions.Add(new MultiplyNode());
+            manager.Functions.Add(new DivisionNode());
+            manager.Functions.Add(new PowerNode());
+
+            CalculationTree tree = manager.CreateTree(expression, new string[] { });
+
+            Dictionary<string, string> arguments = new Dictionary<string, string>();
+            foreach (string name in tree.Arguments)
+            {
+                arguments.Add(name, GetArgument(name));
             }
+
+            ValueNode value = tree.Calculate(arguments);
+            if (value is  ValueNode<double> dValue) Console.WriteLine($"{RESULT}: {dValue.Value}");
+            else throw new ArgumentException($"Некорректный результат");
+        }
+
+        static string GetArgument(string name)
+        {
+            Console.WriteLine($"{INVITATION_ARGUMENT} \"{name}\":");
+            string result = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(result) || QUIT.Equals(result.ToLower())) throw new CancelationException(END_MESSAGE);
+
+            return result;
         }
     }
 }

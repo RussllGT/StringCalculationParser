@@ -44,6 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CancelationException.cs" />
+    <Compile Include="Double\AdditionNode.cs" />
+    <Compile Include="Double\DivisionNode.cs" />
+    <Compile Include="Double\MultiplyNode.cs" />
+    <Compile Include="Double\PowerNode.cs" />
+    <Compile Include="Double\SubstractionNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -56,5 +61,6 @@
       <Name>StringCalculation</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
