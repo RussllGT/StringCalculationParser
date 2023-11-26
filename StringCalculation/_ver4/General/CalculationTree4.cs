@@ -11,9 +11,11 @@ namespace StringCalculation._ver4.General
 {
     public class CalculationTree4
     {
+        private readonly ICalculationNode _root;
         private readonly Dictionary<string, ValueNode4> _values = new Dictionary<string, ValueNode4>();
 
-        private readonly ICalculationNode _root;
+        public IEnumerable<string> Arguments => _values.Keys;
+        public int ArgumentsNumber => _values.Count;
 
         private CalculationTree4(ICalculationNode root, string[] arguments)
         {

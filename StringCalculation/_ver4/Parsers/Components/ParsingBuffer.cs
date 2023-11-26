@@ -11,7 +11,7 @@ namespace StringCalculation._ver4.Parsers.Components
 {
     public class ParsingBuffer
     {
-        private readonly string _incorrectSymbols;
+        private string _incorrectSymbols;
 
         private readonly Dictionary<SymbolBufferingResult, SymbolReader> _readers = new Dictionary<SymbolBufferingResult, SymbolReader>
         {
@@ -23,6 +23,11 @@ namespace StringCalculation._ver4.Parsers.Components
 
         public ParsingBuffer() 
         {
+            
+        }
+
+        private void SetIncorrectSymbols()
+        {
             _incorrectSymbols = ExpressionManager.Instance.SymbolsData.IncorrectSymbols
                 + ExpressionManager.Instance.SymbolsData.LambdaBraceOpen
                 + ExpressionManager.Instance.SymbolsData.LambdaBraceClose;
@@ -30,6 +35,8 @@ namespace StringCalculation._ver4.Parsers.Components
 
         public SymbolBufferingInfo ReadSymbol(char symbol)
         {
+            if (string.IsNullOrWhiteSpace(_incorrectSymbols)) SetIncorrectSymbols();
+
             if (_incorrectSymbols.Contains(symbol)) throw new ArgumentException($"Некорректный символ в выражении: \'{symbol}\'");
             if (ExpressionManager.Instance.SymbolsData.EmptySymbols.Contains(symbol)) return new SymbolBufferingInfo(SymbolBufferingResult.Read, string.Empty);
 
@@ -37,14 +44,17 @@ namespace StringCalculation._ver4.Parsers.Components
             {
                 if (_readers[buffering].ReadSymbol(symbol) is SymbolReadingInfo info)
                 {
-                    SymbolBufferingInfo result = new SymbolBufferingInfo(SymbolBufferingResult.Read, string.Empty);
                     if (info.IsComlete)
                     {
-                        if (_readers.ContainsKey(info.Transfer)) _readers[info.Transfer].ReadSymbol(symbol);
-                        result = new SymbolBufferingInfo(buffering, info.Result);
+                        if (_readers.ContainsKey(info.Transfer))
+                        {
+                            _readers[info.Transfer].ReadSymbol(symbol);
+                            _currentBuffering = info.Transfer;
+                        }
+                        return new SymbolBufferingInfo(buffering, info.Result);
                     }
                     _currentBuffering = buffering;
-                    return result;
+                    return new SymbolBufferingInfo(SymbolBufferingResult.Read, string.Empty);
                 }
             }
 

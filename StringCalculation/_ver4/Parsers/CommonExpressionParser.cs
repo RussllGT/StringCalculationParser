@@ -26,6 +26,7 @@ namespace StringCalculation._ver4.Parsers
             foreach (char symbol in expression) BufferSymbol(_buffer.ReadSymbol(symbol));
             BufferSymbol(_buffer.ReadSymbol(SymbolReader.END_OF_THE_LINE_SYMBOL));
 
+            CalculationTreeBuilder.ProcessNodes(result);
             return result;
 
             void BufferSymbol(SymbolBufferingInfo info)
@@ -41,7 +42,7 @@ namespace StringCalculation._ver4.Parsers
 
                     case SymbolBufferingResult.Word:
                         if (CheckFunction(info.Value)) result.AddLast(GetFunction(info.Value));
-                        if (CheckArgument(info.Value)) result.AddLast(GetArgument(info.Value));
+                        else if (CheckArgument(info.Value)) result.AddLast(GetArgument(info.Value));
                         else result.AddLast(GetConstant(info.Value));
                         return;
 

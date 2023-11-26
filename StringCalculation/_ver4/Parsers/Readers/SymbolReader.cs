@@ -19,17 +19,21 @@ namespace StringCalculation._ver4.Parsers.Readers
 
         public abstract SymbolReadingInfo ReadSymbol(char symbol);
 
-        protected SymbolReadingInfo Open()
+        protected SymbolReadingInfo Open(string buffer)
         {
             _isActive = true;
-            _buffer = string.Empty;
+            _buffer = buffer;
             return SymbolReadingInfo.Empty;
         }
 
         protected SymbolReadingInfo Close(SymbolBufferingResult transfer = SymbolBufferingResult.Read)
         {
             _isActive = false;
-            return new SymbolReadingInfo(true, transfer, _buffer);
+            if (string.IsNullOrWhiteSpace(_buffer)) return SymbolReadingInfo.Empty;
+
+            string temp = _buffer;
+            _buffer = string.Empty;
+            return new SymbolReadingInfo(true, transfer, temp);
         }
 
         protected bool IsOpenBrace(char symbol) => ExpressionManager.Instance.SymbolsData.CommonBraceOpen.Equals(symbol);
@@ -37,5 +41,6 @@ namespace StringCalculation._ver4.Parsers.Readers
         protected bool IsOperatorSymbol(char symbol) => ExpressionManager.Instance.SymbolsData.OperatorSymbols.Contains(symbol);
         protected bool IsWordSymbol(char symbol) => !(IsOperatorSymbol(symbol) || IsOpenBrace(symbol));
         protected bool IsEndSymbol(char symbol) => END_OF_THE_LINE_SYMBOL.Equals(symbol);
+        protected bool IsSeparationSymbol(char symbol) => ExpressionManager.Instance.SymbolsData.ArgumentsSeparators.Contains(symbol);
     }
 }

@@ -40,7 +40,7 @@ namespace StringCalculation._ver4.General
             if (current.Value is FunctionNode4 function && function.OperatorType == OperatorTypeEnum.Negative && function.GetArgument(0) is null)
             {
                 function.SetArgument(0, new ConstantNode4(new ValueNode4<double>(0)));
-                function.SetArgument(0, current.Next.Value);
+                function.SetArgument(1, current.Next.Value);
                 nodes.Remove(current.Next);
             }
         }
@@ -66,7 +66,7 @@ namespace StringCalculation._ver4.General
                     if (IsAvaliableOperator(current.Value, i, out FunctionNode4 function))
                     {
                         function.SetArgument(0, current.Previous.Value);
-                        function.SetArgument(0, current.Next.Value);
+                        function.SetArgument(1, current.Next.Value);
                         nodes.Remove(current.Previous);
                         nodes.Remove(current.Next);
                     }

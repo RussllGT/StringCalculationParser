@@ -14,7 +14,7 @@ namespace StringCalculation._ver4.Parsers.Readers
         {
             if (IsCloseBrace(symbol)) throw new ArgumentException("В выражении некорректно расставлены скобки");
 
-            if (IsEndSymbol(symbol)) return Close();
+            if (IsEndSymbol(symbol) || IsSeparationSymbol(symbol)) return Close();
             if (_isActive)
             {
                 if (IsOperatorSymbol(symbol))
@@ -30,7 +30,7 @@ namespace StringCalculation._ver4.Parsers.Readers
             }
             else
             {
-                if (IsOperatorSymbol(symbol)) return Open();
+                if (IsOperatorSymbol(symbol)) return Open(symbol.ToString());
                 return null;
             }
         }

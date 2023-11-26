@@ -28,17 +28,14 @@ namespace StringCalculation._ver4.Parsers.Readers
                 }
                 else
                 {
-                    if (IsOpenBrace(symbol))
-                    {
-                        ++_count;
-                        _buffer += symbol;
-                    }
+                    _buffer += symbol;
+                    if (IsOpenBrace(symbol)) ++_count;
                     return SymbolReadingInfo.Empty;
                 }
             }
             else
             {
-                if (IsOpenBrace(symbol)) return Open();
+                if (IsOpenBrace(symbol)) return Open(string.Empty);
                 else return null;
             }
         }
